@@ -79,7 +79,7 @@ function Landing() {
         />
         <div className="relative max-w-6xl mx-auto px-4 pt-10 sm:pt-16 pb-8 text-center">
           <span className="inline-block px-3 py-1 rounded-full border border-yellow-400/40 bg-yellow-400/10 text-yellow-300 text-xs font-semibold tracking-wider uppercase mb-6">
-            Concurso PMPI 2026 · Legislação Completa
+            Concurso PMPI 2026 · Banca FCC · 800 Questões
           </span>
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight">
             Passe na <span className="text-yellow-400">PMPI</span> treinando com{" "}
@@ -169,6 +169,59 @@ function Landing() {
           </div>
         </div>
       </section>
+
+      {/* BANCA FCC */}
+      <section className="py-16 sm:py-20 border-t border-white/5">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center">
+            <span className="inline-block px-3 py-1 rounded-full border border-yellow-400/40 bg-yellow-400/10 text-yellow-300 text-xs font-semibold tracking-wider uppercase">
+              Banca Oficial
+            </span>
+            <h2 className="mt-4 text-2xl sm:text-4xl font-black uppercase tracking-tight">
+              Preparado no <span className="text-yellow-400">padrão FCC</span> — a banca do concurso PMPI
+            </h2>
+            <p className="mt-4 max-w-3xl mx-auto text-neutral-300">
+              A <strong className="text-white">Fundação Carlos Chagas (FCC)</strong> é
+              conhecida por questões objetivas, texto direto e alternativas com pegadinhas
+              sutis na letra da lei. Estudar sem treinar no estilo FCC é entrar na prova no escuro.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {[
+              {
+                icon: "📝",
+                title: "Múltipla escolha (A–E)",
+                body:
+                  "Todas as 800 questões seguem o formato oficial FCC: cinco alternativas, apenas uma correta, com foco em decoreba estratégica da legislação.",
+              },
+              {
+                icon: "⚖️",
+                title: "Literalidade da lei",
+                body:
+                  "A FCC cobra a letra fria da lei. Nosso caderno treina você a identificar trocas de palavras, prazos e competências — onde a banca mais derruba.",
+              },
+              {
+                icon: "🧠",
+                title: "Comentários FCC-style",
+                body:
+                  "Cada questão tem justificativa item a item, apontando o artigo, o inciso e o motivo exato pelo qual a alternativa está certa ou errada.",
+              },
+            ].map((c) => (
+              <div
+                key={c.title}
+                className="rounded-2xl bg-neutral-900/70 border border-white/10 p-6 hover:border-yellow-400/40 transition"
+              >
+                <div className="text-3xl">{c.icon}</div>
+                <h3 className="mt-3 text-lg font-bold text-yellow-400">{c.title}</h3>
+                <p className="mt-2 text-sm text-neutral-300 leading-relaxed">{c.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+
 
       {/* WHAT'S INSIDE */}
       <section className="py-16 sm:py-20">
