@@ -255,18 +255,24 @@ function Landing() {
           </p>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {[
-              { n: "Ana P.", r: "Aprovada — Concurso Federal", d: "Nunca tinha treinado tanto no estilo da banca. Depois desse caderno, minha porcentagem de acerto disparou." },
-              { n: "Rafael M.", r: "Concurseiro há 2 anos", d: "Os comentários mostram EXATAMENTE onde a banca tenta te enganar. Vale cada centavo." },
-              { n: "Juliana S.", r: "Aluna PMPI", d: "Prático, direto e no ponto. Consegui identificar meus erros repetidos e finalmente evoluir." },
-            ].map((t) => (
-              <div key={t.n} className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
-                <div className="text-[#FFD400]">★★★★★</div>
-                <p className="mt-4 text-white/80">"{t.d}"</p>
-                <div className="mt-6">
-                  <div className="font-bold text-white">{t.n}</div>
-                  <div className="text-xs text-white/50">{t.r}</div>
-                </div>
-              </div>
+              "https://profjonathanrocha.com.br/wp-content/uploads/2025/02/1.webp",
+              "https://profjonathanrocha.com.br/wp-content/uploads/2025/02/2.webp",
+              "https://profjonathanrocha.com.br/wp-content/uploads/2025/02/3.webp",
+            ].map((src, i) => (
+              <a
+                key={src}
+                href={src}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] transition hover:border-[#FFD400]/40"
+              >
+                <img
+                  src={src}
+                  alt={`Depoimento de aluno ${i + 1}`}
+                  loading="lazy"
+                  className="h-full w-full object-cover"
+                />
+              </a>
             ))}
           </div>
         </div>
