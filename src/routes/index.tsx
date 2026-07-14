@@ -79,7 +79,7 @@ function Landing() {
         />
         <div className="relative max-w-6xl mx-auto px-4 pt-10 sm:pt-16 pb-8 text-center">
           <span className="inline-block px-3 py-1 rounded-full border border-yellow-400/40 bg-yellow-400/10 text-yellow-300 text-xs font-semibold tracking-wider uppercase mb-6">
-            Concurso PMPI 2026 · Legislação Completa
+            Concurso PMPI 2026 · Banca FCC · 800 Questões
           </span>
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight">
             Passe na <span className="text-yellow-400">PMPI</span> treinando com{" "}
