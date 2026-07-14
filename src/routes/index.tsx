@@ -385,9 +385,22 @@ function Landing() {
       </footer>
 
       {/* CTA fixo mobile */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-[#FFD400]/30 bg-[#0a0a0a]/95 p-3 backdrop-blur md:hidden">
+      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-[#FFD400]/30 bg-[#0a0a0a]/95 p-3 pr-20 backdrop-blur md:hidden">
         <CTA className="w-full">Quero o Caderno por R$37 →</CTA>
       </div>
+
+      {/* WhatsApp flutuante */}
+      <a
+        href={WHATSAPP_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Falar no WhatsApp"
+        className="fixed bottom-20 right-4 z-[60] flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] shadow-[0_10px_30px_-5px_rgba(37,211,102,0.6)] ring-4 ring-[#25D366]/20 transition hover:scale-110 md:bottom-6 md:right-6 md:h-16 md:w-16"
+      >
+        <svg viewBox="0 0 32 32" className="h-7 w-7 md:h-8 md:w-8" fill="white" aria-hidden="true">
+          <path d="M19.11 17.39c-.28-.14-1.65-.81-1.9-.9-.26-.1-.44-.14-.63.14-.19.28-.72.9-.88 1.09-.16.19-.32.21-.6.07-.28-.14-1.17-.43-2.23-1.38-.83-.74-1.38-1.65-1.54-1.93-.16-.28-.02-.43.12-.57.13-.13.28-.32.42-.49.14-.16.19-.28.28-.47.09-.19.05-.35-.02-.49-.07-.14-.63-1.52-.86-2.08-.23-.55-.46-.47-.63-.48h-.54c-.19 0-.49.07-.75.35-.26.28-.98.96-.98 2.34s1 2.71 1.14 2.9c.14.19 1.97 3 4.77 4.21.67.29 1.19.46 1.6.59.67.21 1.28.18 1.77.11.54-.08 1.65-.67 1.89-1.32.23-.65.23-1.2.16-1.32-.07-.11-.26-.18-.54-.32zM16.03 5.33h-.01c-5.87 0-10.65 4.78-10.65 10.66 0 2.1.61 4.15 1.78 5.91L5.32 27l5.24-1.72a10.61 10.61 0 0 0 5.46 1.5h.01c5.87 0 10.65-4.78 10.65-10.66 0-2.85-1.11-5.53-3.12-7.55a10.61 10.61 0 0 0-7.53-3.12zm0 19.55h-.01a8.85 8.85 0 0 1-4.51-1.24l-.32-.19-3.11 1.02 1.03-3.03-.21-.32a8.86 8.86 0 0 1-1.36-4.72c0-4.9 3.99-8.87 8.9-8.87 2.38 0 4.61.93 6.29 2.6a8.83 8.83 0 0 1 2.6 6.29c0 4.9-3.99 8.87-8.89 8.87z"/>
+        </svg>
+      </a>
     </div>
   );
 }
