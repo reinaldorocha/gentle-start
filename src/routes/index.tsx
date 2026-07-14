@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import heroImage from "../assets/hero-mockup.jpg";
-import professorImage from "../assets/professor.jpg";
 
 const CHECKOUT_URL = "https://pay.kiwify.com.br/ruED5zg";
 const WHATSAPP_URL =
@@ -10,17 +9,17 @@ const WHATSAPP_URL =
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Caderno PMPI 2026 — 800 Questões Comentadas da Legislação" },
+      { title: "Caderno PMPI 2026 — 800 Questões Comentadas · Banca FCC" },
       {
         name: "description",
         content:
-          "Concurso PMPI 2026: 800 questões inéditas e comentadas de toda a legislação cobrada. Treine no estilo real da prova e acelere sua aprovação na Polícia Militar do Piauí.",
+          "Concurso PMPI 2026: 800 questões inéditas e comentadas no padrão FCC. Treine no estilo da banca e chegue pronto para farda.",
       },
-      { property: "og:title", content: "Caderno PMPI 2026 — 800 Questões Comentadas" },
+      { property: "og:title", content: "Caderno PMPI 2026 — 800 Questões FCC" },
       {
         property: "og:description",
         content:
-          "800 questões comentadas de toda a legislação do concurso PMPI. Acesso imediato, garantia de 7 dias e bônus exclusivos.",
+          "800 questões comentadas de toda a legislação do concurso PMPI, no padrão FCC. Acesso imediato e garantia de 7 dias.",
       },
       { property: "og:type", content: "website" },
     ],
@@ -29,14 +28,14 @@ export const Route = createFileRoute("/")({
 });
 
 const LEIS = [
-  { qtd: 200, nome: "Código de Ética e Disciplina dos Militares do Estado do Piauí", ref: "Lei nº 7.725/2022" },
+  { qtd: 200, nome: "Código de Ética e Disciplina dos Militares do Piauí", ref: "Lei nº 7.725/2022" },
   { qtd: 120, nome: "Constituição do Estado do Piauí", ref: "CE/PI" },
-  { qtd: 100, nome: "Lei Orgânica Nacional das PM e Corpos de Bombeiros Militares", ref: "Lei nº 14.751/2023" },
-  { qtd: 70, nome: "Lei de Organização Básica da PM do Piauí", ref: "Lei nº 3.529/1977" },
-  { qtd: 70, nome: "Lei de Promoção de Praças da PM do Piauí", ref: "LC nº 68/2006" },
+  { qtd: 100, nome: "Lei Orgânica Nacional das PM e CBM", ref: "Lei nº 14.751/2023" },
+  { qtd: 70, nome: "Lei de Organização Básica da PMPI", ref: "Lei nº 3.529/1977" },
+  { qtd: 70, nome: "Lei de Promoção de Praças da PMPI", ref: "LC nº 68/2006" },
   { qtd: 70, nome: "Regulamento da Lei de Promoção de Praças", ref: "Decreto nº 12.422/2006" },
-  { qtd: 70, nome: "Código de Vencimentos da PM do Piauí", ref: "Lei nº 5.378/2004" },
-  { qtd: 50, nome: "Regulamento para as PM e Corpos de Bombeiros Militares (R-200)", ref: "Decreto Federal nº 88.777/1983" },
+  { qtd: 70, nome: "Código de Vencimentos da PMPI", ref: "Lei nº 5.378/2004" },
+  { qtd: 50, nome: "Regulamento R-200 (PM e CBM)", ref: "Decreto Federal nº 88.777/1983" },
   { qtd: 50, nome: "Decreto-Lei nº 667/1969 e alterações", ref: "DL 667/69" },
 ];
 
@@ -48,401 +47,347 @@ function useCountdown(hours: number) {
     return () => clearInterval(id);
   }, []);
   const diff = Math.max(0, end - now);
-  const h = Math.floor(diff / 3_600_000);
-  const m = Math.floor((diff % 3_600_000) / 60_000);
-  const s = Math.floor((diff % 60_000) / 1000);
-  return { h, m, s };
+  const h = String(Math.floor(diff / 3_600_000)).padStart(2, "0");
+  const m = String(Math.floor((diff % 3_600_000) / 60_000)).padStart(2, "0");
+  const s = String(Math.floor((diff % 60_000) / 1000)).padStart(2, "0");
+  return `${h}:${m}:${s}`;
+}
+
+function CTA({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <a
+      href={CHECKOUT_URL}
+      className={`inline-flex items-center justify-center rounded-lg bg-[#FFD400] px-8 py-4 text-base font-black uppercase tracking-wide text-black shadow-[0_10px_30px_-8px_rgba(255,212,0,0.5)] transition hover:scale-[1.02] hover:bg-[#ffdf33] ${className}`}
+    >
+      {children}
+    </a>
+  );
+}
+
+function Faq({ q, a }: { q: string; a: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <button
+      onClick={() => setOpen(!open)}
+      className="w-full rounded-lg border border-white/10 bg-white/[0.03] p-5 text-left transition hover:border-[#FFD400]/40"
+    >
+      <div className="flex items-center justify-between gap-4">
+        <span className="font-semibold text-white">{q}</span>
+        <span className="text-2xl text-[#FFD400]">{open ? "−" : "+"}</span>
+      </div>
+      {open && <p className="mt-3 text-sm text-white/70">{a}</p>}
+    </button>
+  );
 }
 
 function Landing() {
-  const { h, m, s } = useCountdown(23);
-  const pad = (n: number) => n.toString().padStart(2, "0");
+  const countdown = useCountdown(23);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white antialiased selection:bg-yellow-400 selection:text-black">
-      {/* Top urgency bar */}
-      <div className="bg-gradient-to-r from-red-700 via-red-600 to-red-700 text-white text-center text-xs sm:text-sm font-semibold py-2 px-4">
-        🔥 OFERTA POR TEMPO LIMITADO — encerra em{" "}
-        <span className="font-mono tabular-nums tracking-wider">
-          {pad(h)}:{pad(m)}:{pad(s)}
-        </span>
+    <div className="min-h-screen bg-[#0a0a0a] text-white">
+      {/* Top bar */}
+      <div className="bg-gradient-to-r from-red-700 via-red-600 to-red-700 py-2 text-center text-sm font-bold">
+        🔥 OFERTA POR TEMPO LIMITADO — encerra em {countdown}
       </div>
 
       {/* HERO */}
-      <header className="relative overflow-hidden">
-        <div
-          className="absolute inset-0 opacity-40"
-          style={{
-            background:
-              "radial-gradient(ellipse at top, rgba(250,204,21,0.25), transparent 60%), radial-gradient(ellipse at bottom, rgba(220,38,38,0.2), transparent 60%)",
-          }}
-        />
-        <div className="relative max-w-6xl mx-auto px-4 pt-10 sm:pt-16 pb-8 text-center">
-          <span className="inline-block px-3 py-1 rounded-full border border-yellow-400/40 bg-yellow-400/10 text-yellow-300 text-xs font-semibold tracking-wider uppercase mb-6">
-            Concurso PMPI 2026 · Banca FCC · 800 Questões
-          </span>
-          <h1 className="text-3xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight">
-            Passe na <span className="text-yellow-400">PMPI</span> treinando com{" "}
-            <span className="text-yellow-400">800 questões comentadas</span> de toda a legislação 🚔
-          </h1>
-          <p className="mt-6 max-w-3xl mx-auto text-base sm:text-lg text-neutral-300">
-            Preparação focada 100% no edital da{" "}
-            <strong className="text-white">Polícia Militar do Piauí</strong>. Domine cada
-            lei cobrada, desarme as pegadinhas e chegue no dia da prova pronto para farda.
-          </p>
+      <section className="mx-auto max-w-5xl px-6 pt-16 pb-20 text-center">
+        <span className="inline-block rounded-full border border-[#FFD400]/40 bg-[#FFD400]/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#FFD400]">
+          Concurso PMPI · Banca FCC
+        </span>
+        <h1 className="mt-6 text-4xl font-black leading-tight sm:text-5xl md:text-6xl">
+          Passe na <span className="text-[#FFD400]">PMPI</span> treinando com{" "}
+          <span className="text-[#FFD400]">800 questões comentadas</span> no padrão FCC 🚔
+        </h1>
+        <p className="mx-auto mt-6 max-w-2xl text-lg text-white/70">
+          Preparação focada 100% no edital da <strong className="text-white">Polícia Militar do Piauí</strong>. Treine
+          no estilo múltipla escolha da banca <strong className="text-white">FCC</strong>, desarme as pegadinhas de
+          literalidade e chegue no dia da prova pronto para farda.
+        </p>
 
-          <div className="mt-8 flex justify-center">
-            <img
-              src={heroImage}
-              alt="Caderno PMPI com 800 questões comentadas"
-              className="w-full max-w-3xl rounded-xl shadow-[0_30px_80px_-20px_rgba(250,204,21,0.35)]"
-            />
-          </div>
-
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
-              href={CHECKOUT_URL}
-              className="w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-red-600 hover:bg-red-500 active:scale-[.98] transition px-8 py-4 text-base sm:text-lg font-extrabold uppercase tracking-wide shadow-[0_10px_30px_-5px_rgba(220,38,38,0.6)]"
-            >
-              Quero ser aprovado!
-            </a>
-            <div className="flex items-center gap-2 text-sm text-neutral-400">
-              <span className="inline-block w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              Acesso imediato após a compra
-            </div>
-          </div>
-
-          <div className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs sm:text-sm text-neutral-400">
-            <span>✔ 800 questões inéditas</span>
-            <span>✔ Comentadas item a item</span>
-            <span>✔ Toda a legislação PMPI</span>
-            <span>✔ Garantia de 7 dias</span>
-          </div>
+        <div className="mt-10">
+          <img
+            src={heroImage}
+            alt="Caderno de 800 questões PMPI padrão FCC"
+            className="mx-auto w-full max-w-3xl rounded-2xl shadow-[0_30px_80px_-20px_rgba(255,212,0,0.25)]"
+          />
         </div>
-      </header>
+      </section>
 
-      {/* PAIN POINTS */}
-      <section className="py-16 sm:py-20 bg-[#0f0f0f] border-t border-white/5">
-        <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-center text-2xl sm:text-4xl font-black uppercase tracking-tight">
-            O tempo está correndo.{" "}
-            <span className="text-yellow-400">Você está realmente preparado?</span>
+      {/* DORES */}
+      <section className="bg-black/40 py-20">
+        <div className="mx-auto max-w-5xl px-6">
+          <h2 className="text-center text-3xl font-black md:text-4xl">
+            O tempo está correndo. Você está <span className="text-[#FFD400]">realmente preparado</span>?
           </h2>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {[
-              {
-                icon: "📚",
-                title: "Legislação extensa demais?",
-                body:
-                  "São 9 leis, decretos e regulamentos. Sem prática direcionada, você se perde no volume e chega na prova inseguro.",
-              },
-              {
-                icon: "🎯",
-                title: "Erra por detalhes?",
-                body:
-                  "A banca troca uma palavra e derruba o candidato. Com comentários item a item você entende cada pegadinha e não erra de novo.",
-              },
-              {
-                icon: "⏱️",
-                title: "Muita teoria, pouca prática?",
-                body:
-                  "Ler a lei seca não basta. As 800 questões te dão o volume de treino que vira acerto na prova real da PMPI.",
-              },
+              { i: "🧭", t: "Dificuldade nas questões da FCC?", d: "A FCC cobra literalidade da lei. Treinar no mesmo estilo separa quem acerta de quem chuta." },
+              { i: "🎯", t: "Erra por detalhes?", d: "Uma palavra muda tudo. Com comentários direcionados, você entende por que errou — e não erra de novo." },
+              { i: "⏱️", t: "Muito conteúdo, pouca prática?", d: "Teoria não basta. 800 questões dão o volume de treino que transforma conhecimento em acertos." },
             ].map((c) => (
-              <div
-                key={c.title}
-                className="rounded-2xl bg-neutral-900/70 border border-white/10 p-6 hover:border-yellow-400/40 transition"
-              >
-                <div className="text-3xl">{c.icon}</div>
-                <h3 className="mt-3 text-lg font-bold text-yellow-400">{c.title}</h3>
-                <p className="mt-2 text-sm text-neutral-300 leading-relaxed">{c.body}</p>
+              <div key={c.t} className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+                <div className="text-4xl">{c.i}</div>
+                <h3 className="mt-4 text-xl font-bold text-[#FFD400]">{c.t}</h3>
+                <p className="mt-2 text-sm text-white/70">{c.d}</p>
               </div>
             ))}
           </div>
           <div className="mt-10 text-center">
-            <a
-              href={CHECKOUT_URL}
-              className="inline-flex items-center justify-center rounded-full bg-red-600 hover:bg-red-500 transition px-8 py-4 text-base font-extrabold uppercase tracking-wide"
-            >
-              Libere o seu acesso!
-            </a>
+            <CTA>Libere o seu acesso!</CTA>
+          </div>
+        </div>
+      </section>
+
+      {/* O QUE RECEBE */}
+      <section className="py-20">
+        <div className="mx-auto max-w-5xl px-6">
+          <p className="text-center text-sm font-bold uppercase tracking-widest text-[#FFD400]">O que você recebe</p>
+          <h2 className="mx-auto mt-3 max-w-3xl text-center text-3xl font-black md:text-4xl">
+            800 questões focadas na PMPI, inéditas e comentadas em detalhes
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-center text-white/70">
+            Conteúdo alinhado ao edital da Polícia Militar do Piauí. Estude o que realmente cai e chegue na prova com
+            vantagem real sobre os outros candidatos.
+          </p>
+
+          <ul className="mx-auto mt-10 grid max-w-3xl gap-3 md:grid-cols-2">
+            {[
+              "100% no padrão FCC (múltipla escolha A–E)",
+              "Foco total no edital do concurso PMPI",
+              "Comentadas por especialistas aprovados",
+              "Gabarito com justificativa item a item",
+              "Acesso vitalício em qualquer dispositivo",
+              "Bônus exclusivos para concurseiros PMPI",
+            ].map((t) => (
+              <li key={t} className="flex items-start gap-3 rounded-lg border border-white/10 bg-white/[0.03] p-4">
+                <span className="mt-0.5 text-[#FFD400]">✓</span>
+                <span className="text-white/90">{t}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-10 text-center">
+            <CTA>Quero começar agora</CTA>
           </div>
         </div>
       </section>
 
       {/* BANCA FCC */}
-      <section className="py-16 sm:py-20 border-t border-white/5">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center">
-            <span className="inline-block px-3 py-1 rounded-full border border-yellow-400/40 bg-yellow-400/10 text-yellow-300 text-xs font-semibold tracking-wider uppercase">
-              Banca Oficial
-            </span>
-            <h2 className="mt-4 text-2xl sm:text-4xl font-black uppercase tracking-tight">
-              Preparado no <span className="text-yellow-400">padrão FCC</span> — a banca do concurso PMPI
-            </h2>
-            <p className="mt-4 max-w-3xl mx-auto text-neutral-300">
-              A <strong className="text-white">Fundação Carlos Chagas (FCC)</strong> é
-              conhecida por questões objetivas, texto direto e alternativas com pegadinhas
-              sutis na letra da lei. Estudar sem treinar no estilo FCC é entrar na prova no escuro.
-            </p>
-          </div>
-
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
+      <section className="bg-black/40 py-20">
+        <div className="mx-auto max-w-5xl px-6">
+          <p className="text-center text-sm font-bold uppercase tracking-widest text-[#FFD400]">Banca FCC</p>
+          <h2 className="mx-auto mt-3 max-w-3xl text-center text-3xl font-black md:text-4xl">
+            Fundação Carlos Chagas: <span className="text-[#FFD400]">literalidade da lei</span> é tudo
+          </h2>
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
             {[
-              {
-                icon: "📝",
-                title: "Múltipla escolha (A–E)",
-                body:
-                  "Todas as 800 questões seguem o formato oficial FCC: cinco alternativas, apenas uma correta, com foco em decoreba estratégica da legislação.",
-              },
-              {
-                icon: "⚖️",
-                title: "Literalidade da lei",
-                body:
-                  "A FCC cobra a letra fria da lei. Nosso caderno treina você a identificar trocas de palavras, prazos e competências — onde a banca mais derruba.",
-              },
-              {
-                icon: "🧠",
-                title: "Comentários FCC-style",
-                body:
-                  "Cada questão tem justificativa item a item, apontando o artigo, o inciso e o motivo exato pelo qual a alternativa está certa ou errada.",
-              },
+              { t: "Múltipla escolha A–E", d: "A FCC cobra 5 alternativas. Treine com o mesmo formato que você vai encontrar na prova." },
+              { t: "Cobrança literal", d: "A banca ama a letra fria da lei. Nossas questões exploram cada detalhe do texto normativo." },
+              { t: "Pegadinhas clássicas", d: "Trocas de numerais, prazos, atribuições e competências — treinamos você para reconhecer cada uma." },
             ].map((c) => (
-              <div
-                key={c.title}
-                className="rounded-2xl bg-neutral-900/70 border border-white/10 p-6 hover:border-yellow-400/40 transition"
-              >
-                <div className="text-3xl">{c.icon}</div>
-                <h3 className="mt-3 text-lg font-bold text-yellow-400">{c.title}</h3>
-                <p className="mt-2 text-sm text-neutral-300 leading-relaxed">{c.body}</p>
+              <div key={c.t} className="rounded-2xl border border-[#FFD400]/20 bg-white/[0.03] p-6">
+                <h3 className="text-lg font-bold text-[#FFD400]">{c.t}</h3>
+                <p className="mt-2 text-sm text-white/70">{c.d}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-
-
-      {/* WHAT'S INSIDE */}
-      <section className="py-16 sm:py-20">
-        <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-10 items-center">
-          <div>
-            <p className="text-yellow-400 text-sm font-bold uppercase tracking-widest">
-              O que você recebe
-            </p>
-            <h2 className="mt-2 text-2xl sm:text-4xl font-black">
-              800 questões focadas na{" "}
-              <span className="text-yellow-400">PMPI</span>, inéditas e comentadas em detalhes
-            </h2>
-            <p className="mt-4 text-neutral-300">
-              Conteúdo 100% alinhado ao edital da Polícia Militar do Piauí. Estude o que
-              realmente cai e chegue na prova com vantagem real sobre os outros candidatos.
-            </p>
-            <ul className="mt-6 space-y-3 text-neutral-200">
-              {[
-                "Toda a legislação PMPI em um só lugar",
-                "Foco total no edital do concurso PMPI 2026",
-                "Comentadas por especialistas aprovados",
-                "Gabarito com justificativa item a item",
-                "Acesso vitalício em qualquer dispositivo",
-                "Bônus exclusivos para concurseiros PMPI",
-              ].map((f) => (
-                <li key={f} className="flex gap-3">
-                  <span className="mt-1 inline-flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-yellow-400 text-black font-bold text-xs">
-                    ✓
-                  </span>
-                  <span>{f}</span>
-                </li>
-              ))}
-            </ul>
-            <a
-              href={CHECKOUT_URL}
-              className="mt-8 inline-flex items-center justify-center rounded-full bg-red-600 hover:bg-red-500 transition px-8 py-4 text-base font-extrabold uppercase tracking-wide"
-            >
-              Garantir meu caderno agora
-            </a>
-          </div>
-          <div className="relative">
-            <div className="absolute -inset-4 bg-yellow-400/10 blur-3xl rounded-full" />
-            <img
-              src={professorImage}
-              alt="Professor Jonathan Rocha"
-              className="relative w-full rounded-2xl border border-yellow-400/20"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* CONTEÚDO DETALHADO */}
-      <section className="py-16 sm:py-20 bg-[#0f0f0f] border-t border-white/5">
-        <div className="max-w-6xl mx-auto px-4">
-          <p className="text-center text-yellow-400 text-sm font-bold uppercase tracking-widest">
-            Distribuição das 800 questões
+      {/* DIVISÃO DAS QUESTÕES */}
+      <section className="py-20">
+        <div className="mx-auto max-w-5xl px-6">
+          <p className="text-center text-sm font-bold uppercase tracking-widest text-[#FFD400]">
+            Divisão das 800 questões
           </p>
-          <h2 className="mt-2 text-center text-2xl sm:text-4xl font-black">
-            Cada lei do edital com a{" "}
-            <span className="text-yellow-400">quantidade certa de treino</span>
+          <h2 className="mx-auto mt-3 max-w-3xl text-center text-3xl font-black md:text-4xl">
+            Cobertura completa da legislação da PMPI
           </h2>
-          <div className="mt-12 grid gap-4 md:grid-cols-2">
+
+          <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {LEIS.map((l) => (
               <div
                 key={l.nome}
-                className="flex items-start gap-4 rounded-2xl bg-neutral-900/70 border border-white/10 p-5 hover:border-yellow-400/40 transition"
+                className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition hover:border-[#FFD400]/40"
               >
-                <div className="flex-shrink-0 flex items-center justify-center h-14 w-14 rounded-xl bg-yellow-400 text-black font-black text-lg">
-                  {l.qtd}
-                </div>
-                <div>
-                  <h3 className="font-bold text-white leading-snug">{l.nome}</h3>
-                  <p className="mt-1 text-sm text-neutral-400">{l.ref}</p>
+                <div className="text-4xl font-black text-[#FFD400]">{l.qtd}</div>
+                <div className="text-xs uppercase tracking-widest text-white/50">questões</div>
+                <h3 className="mt-4 text-base font-bold text-white">{l.nome}</h3>
+                <p className="mt-1 text-sm text-white/60">{l.ref}</p>
+              </div>
+            ))}
+          </div>
+
+          <p className="mt-10 text-center text-white/70">
+            Total: <strong className="text-[#FFD400]">800 questões inéditas</strong> comentadas no padrão FCC.
+          </p>
+        </div>
+      </section>
+
+      {/* BENEFÍCIOS */}
+      <section className="bg-black/40 py-20">
+        <div className="mx-auto max-w-5xl px-6">
+          <h2 className="mx-auto max-w-3xl text-center text-3xl font-black md:text-4xl">
+            Chega de estudo genérico. <span className="text-[#FFD400]">Transforme sua preparação na sua arma secreta.</span>
+          </h2>
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {[
+              { t: "Direcionamento cirúrgico", d: "Cada questão foi elaborada no nível real cobrado pela FCC, para você estudar sem perder tempo com o que não cai." },
+              { t: "Aprendizado acelerado", d: "Comentários diretos e explicativos fixam o conteúdo mais rápido do que qualquer resumo de teoria." },
+              { t: "Confiança na hora da prova", d: "Você chega no dia da prova reconhecendo o padrão das assertivas e desarma as pegadinhas clássicas da banca." },
+            ].map((c) => (
+              <div key={c.t} className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+                <h3 className="text-lg font-bold text-[#FFD400]">{c.t}</h3>
+                <p className="mt-3 text-sm text-white/70">{c.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* DEPOIMENTOS */}
+      <section className="py-20">
+        <div className="mx-auto max-w-5xl px-6">
+          <h2 className="text-center text-3xl font-black md:text-4xl">Veja o que nossos alunos dizem</h2>
+          <p className="mt-3 text-center text-white/70">
+            Depoimentos reais de quem já usa o método para conquistar a vaga.
+          </p>
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {[
+              { n: "Ana P.", r: "Aprovada — Concurso Federal", d: "Nunca tinha treinado tanto no estilo da banca. Depois desse caderno, minha porcentagem de acerto disparou." },
+              { n: "Rafael M.", r: "Concurseiro há 2 anos", d: "Os comentários mostram EXATAMENTE onde a banca tenta te enganar. Vale cada centavo." },
+              { n: "Juliana S.", r: "Aluna PMPI", d: "Prático, direto e no ponto. Consegui identificar meus erros repetidos e finalmente evoluir." },
+            ].map((t) => (
+              <div key={t.n} className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+                <div className="text-[#FFD400]">★★★★★</div>
+                <p className="mt-4 text-white/80">"{t.d}"</p>
+                <div className="mt-6">
+                  <div className="font-bold text-white">{t.n}</div>
+                  <div className="text-xs text-white/50">{t.r}</div>
                 </div>
               </div>
             ))}
           </div>
-          <div className="mt-10 rounded-2xl border border-yellow-400/30 bg-yellow-400/5 p-6 text-center">
-            <p className="text-yellow-300 text-sm uppercase font-bold tracking-wider">Total</p>
-            <p className="mt-2 text-4xl sm:text-5xl font-black">
-              800 <span className="text-yellow-400">questões comentadas</span>
-            </p>
+        </div>
+      </section>
+
+      {/* BÔNUS */}
+      <section className="bg-black/40 py-20">
+        <div className="mx-auto max-w-5xl px-6">
+          <h2 className="text-center text-3xl font-black md:text-4xl">Além disso, você também vai receber:</h2>
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
+            {[
+              { n: "BÔNUS 01", t: "Edital verticalizado PMPI", de: "R$ 27,00", d: "Divide o edital em tópicos claros e estruturados para você planejar sua rotina e não esquecer nenhum tema." },
+              { n: "BÔNUS 02", t: "Ebook do Concurseiro Iniciante", de: "R$ 57,00", d: "Guia passo a passo para organizar seus estudos, montar cronograma e evitar os erros que fazem muitos desistirem." },
+            ].map((b) => (
+              <div key={b.n} className="rounded-2xl border border-[#FFD400]/30 bg-white/[0.03] p-6">
+                <div className="text-xs font-bold uppercase tracking-widest text-[#FFD400]">{b.n}</div>
+                <h3 className="mt-2 text-2xl font-black">{b.t}</h3>
+                <p className="mt-3 text-sm text-white/60">
+                  De <span className="line-through">{b.de}</span> por{" "}
+                  <span className="font-bold text-[#FFD400]">GRÁTIS HOJE</span>
+                </p>
+                <p className="mt-3 text-sm text-white/80">{b.d}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* OFERTA */}
-      <section className="py-16 sm:py-24">
-        <div className="max-w-3xl mx-auto px-4">
-          <div className="rounded-3xl border border-yellow-400/40 bg-gradient-to-b from-neutral-900 to-black p-8 sm:p-12 text-center shadow-[0_30px_80px_-20px_rgba(250,204,21,0.3)]">
-            <p className="text-yellow-400 text-sm font-bold uppercase tracking-widest">
-              Oferta de lançamento
+      <section className="py-20">
+        <div className="mx-auto max-w-3xl px-6 text-center">
+          <p className="text-sm font-bold uppercase tracking-widest text-[#FFD400]">Receba o acesso agora</p>
+          <h2 className="mt-3 text-3xl font-black md:text-4xl">
+            Comece a resolver as questões que vão <span className="text-[#FFD400]">turbinar sua aprovação</span>
+          </h2>
+
+          <div className="mt-10 rounded-3xl border border-[#FFD400]/40 bg-gradient-to-b from-white/[0.05] to-transparent p-10 shadow-[0_20px_60px_-20px_rgba(255,212,0,0.25)]">
+            <p className="text-white/70">
+              Pagamento único, de <span className="line-through">R$ 89,90</span> por apenas:
             </p>
-            <h2 className="mt-3 text-2xl sm:text-4xl font-black">
-              Caderno PMPI 2026 —{" "}
-              <span className="text-yellow-400">800 questões comentadas</span>
-            </h2>
-            <div className="mt-8 flex items-end justify-center gap-3">
-              <span className="text-neutral-500 line-through text-xl">De R$ 197</span>
+            <div className="mt-2 text-6xl font-black text-[#FFD400] md:text-7xl">R$37,00</div>
+            <p className="text-sm text-white/60">ou em até 12x no cartão</p>
+
+            <ul className="mt-8 space-y-2 text-left">
+              {[
+                "800 questões comentadas — padrão FCC",
+                "Bônus 01: Edital verticalizado PMPI",
+                "Bônus 02: Ebook do Concurseiro Iniciante",
+                "Acesso imediato em qualquer dispositivo",
+              ].map((t) => (
+                <li key={t} className="flex items-start gap-3">
+                  <span className="text-[#FFD400]">✓</span>
+                  <span className="text-white/90">{t}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-8">
+              <CTA className="w-full">Garanta seu desconto agora →</CTA>
             </div>
-            <div className="mt-2 flex items-end justify-center gap-2">
-              <span className="text-neutral-400 text-lg">Por apenas</span>
-            </div>
-            <div className="mt-1 flex items-end justify-center gap-2">
-              <span className="text-6xl sm:text-7xl font-black text-yellow-400">R$ 37</span>
-              <span className="mb-2 text-neutral-400">à vista</span>
-            </div>
-            <a
-              href={CHECKOUT_URL}
-              className="mt-8 inline-flex w-full sm:w-auto items-center justify-center rounded-full bg-red-600 hover:bg-red-500 transition px-10 py-5 text-lg font-extrabold uppercase tracking-wide shadow-[0_10px_30px_-5px_rgba(220,38,38,0.7)]"
-            >
-              Quero meu acesso agora!
-            </a>
-            <p className="mt-4 text-xs text-neutral-500">
-              Pagamento seguro · Acesso imediato · Garantia de 7 dias
+            <p className="mt-4 text-xs text-white/50">
+              🔒 Compra 100% segura · Acesso imediato · Garantia de 7 dias
             </p>
           </div>
         </div>
       </section>
 
       {/* GARANTIA */}
-      <section className="py-16 bg-[#0f0f0f] border-t border-white/5">
-        <div className="max-w-3xl mx-auto px-4 text-center">
-          <div className="inline-flex items-center justify-center h-20 w-20 rounded-full bg-yellow-400 text-black text-3xl font-black">
-            7
+      <section className="bg-black/40 py-20">
+        <div className="mx-auto flex max-w-4xl flex-col items-center gap-8 px-6 md:flex-row">
+          <div className="flex h-32 w-32 flex-shrink-0 flex-col items-center justify-center rounded-full border-4 border-[#FFD400] text-[#FFD400]">
+            <div className="text-3xl font-black">7</div>
+            <div className="text-xs font-bold uppercase tracking-widest">Dias</div>
           </div>
-          <h2 className="mt-6 text-2xl sm:text-3xl font-black uppercase">
-            Garantia incondicional de <span className="text-yellow-400">7 dias</span>
-          </h2>
-          <p className="mt-4 text-neutral-300">
-            Se em 7 dias você achar que o Caderno PMPI não é para você, basta enviar um
-            e-mail e devolvemos 100% do seu investimento. Sem burocracia, sem perguntas.
-          </p>
+          <div>
+            <h3 className="text-2xl font-black">Satisfação garantida</h3>
+            <p className="mt-3 text-white/70">
+              Experimente o conteúdo por 7 dias. Se não ficar satisfeito por qualquer motivo, basta enviar um e-mail e
+              devolvemos 100% do seu dinheiro. Sem burocracia.
+            </p>
+          </div>
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="py-16 sm:py-20">
-        <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-center text-2xl sm:text-4xl font-black uppercase">
-            Perguntas <span className="text-yellow-400">frequentes</span>
-          </h2>
-          <div className="mt-10 space-y-4">
-            {[
-              {
-                q: "Como recebo o caderno?",
-                a: "O acesso é 100% digital e liberado imediatamente após a confirmação do pagamento, direto no seu e-mail.",
-              },
-              {
-                q: "Posso estudar pelo celular?",
-                a: "Sim. O caderno é otimizado para celular, tablet e computador. Estude de onde estiver.",
-              },
-              {
-                q: "As questões estão atualizadas?",
-                a: "Sim. Todo o material segue as leis e decretos vigentes cobrados no concurso PMPI 2026.",
-              },
-              {
-                q: "Por quanto tempo tenho acesso?",
-                a: "Acesso vitalício. Compre uma vez e estude quantas vezes precisar até passar.",
-              },
-              {
-                q: "E se eu não gostar?",
-                a: "Você tem 7 dias para pedir reembolso integral, sem precisar justificar.",
-              },
-            ].map((f) => (
-              <details
-                key={f.q}
-                className="group rounded-2xl bg-neutral-900/70 border border-white/10 p-5 hover:border-yellow-400/40 transition"
-              >
-                <summary className="cursor-pointer list-none flex justify-between items-center font-bold text-white">
-                  {f.q}
-                  <span className="text-yellow-400 text-xl transition group-open:rotate-45">
-                    +
-                  </span>
-                </summary>
-                <p className="mt-3 text-sm text-neutral-300 leading-relaxed">{f.a}</p>
-              </details>
-            ))}
+      <section className="py-20">
+        <div className="mx-auto max-w-3xl px-6">
+          <h2 className="text-center text-3xl font-black md:text-4xl">Dúvidas frequentes</h2>
+          <div className="mt-10 space-y-3">
+            <Faq q="Como recebo o material?" a="O acesso é enviado imediatamente após a confirmação da compra para o seu e-mail." />
+            <Faq q="As questões estão no padrão da FCC?" a="Sim. Todas as 800 questões foram elaboradas no formato múltipla escolha A–E, exatamente como a FCC cobra." />
+            <Faq q="O material está atualizado?" a="Sim, o conteúdo é revisado periodicamente para se manter alinhado ao edital PMPI mais recente." />
+            <Faq q="Posso acessar no celular?" a="Sim, o material é compatível com celular, tablet e computador — você estuda de onde estiver." />
+            <Faq q="Tem garantia?" a="Sim! Você tem 7 dias para pedir reembolso integral, sem qualquer questionamento." />
+            <Faq q="Tem bônus?" a="Sim: Edital Verticalizado PMPI + Ebook do Concurseiro Iniciante, inclusos sem custo adicional." />
           </div>
         </div>
       </section>
 
-      {/* FOOTER CTA */}
-      <section className="py-16 bg-gradient-to-b from-[#0f0f0f] to-black border-t border-white/5">
-        <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-2xl sm:text-4xl font-black uppercase">
-            Sua farda está esperando por <span className="text-yellow-400">você</span>
-          </h2>
-          <p className="mt-4 text-neutral-300">
-            800 questões, comentários dos especialistas e acesso vitalício. A aprovação
-            começa quando você para de adiar.
-          </p>
+      {/* WHATSAPP */}
+      <section className="pb-24">
+        <div className="mx-auto max-w-3xl px-6 text-center">
+          <p className="text-white/70">Restou alguma dúvida?</p>
+          <p className="mt-1 font-bold">Fale com a gente pelo WhatsApp</p>
           <a
-            href={CHECKOUT_URL}
-            className="mt-8 inline-flex items-center justify-center rounded-full bg-red-600 hover:bg-red-500 transition px-10 py-5 text-lg font-extrabold uppercase tracking-wide shadow-[0_10px_30px_-5px_rgba(220,38,38,0.7)]"
+            href={WHATSAPP_URL}
+            className="mt-6 inline-flex items-center justify-center rounded-lg border border-[#FFD400]/40 bg-white/[0.03] px-8 py-4 font-bold text-[#FFD400] transition hover:bg-[#FFD400]/10"
           >
-            Garantir meu caderno por R$ 37
+            💬 Falar no WhatsApp
           </a>
-          <p className="mt-6 text-xs text-neutral-500">
-            Dúvidas?{" "}
-            <a
-              href={WHATSAPP_URL}
-              className="text-yellow-400 hover:underline"
-            >
-              Fale no WhatsApp
-            </a>
-          </p>
         </div>
       </section>
 
-      <footer className="py-8 border-t border-white/5 text-center text-xs text-neutral-500">
-        © {new Date().getFullYear()} Caderno PMPI · Todos os direitos reservados
+      <footer className="border-t border-white/5 py-8 text-center text-xs text-white/40">
+        © {new Date().getFullYear()} Caderno PMPI · Prof. Jonathan Rocha
       </footer>
 
-      {/* Mobile sticky CTA */}
-      <a
-        href={CHECKOUT_URL}
-        className="sm:hidden fixed bottom-4 left-4 right-4 z-50 flex items-center justify-center rounded-full bg-red-600 hover:bg-red-500 transition px-6 py-4 text-sm font-extrabold uppercase tracking-wide shadow-[0_10px_30px_-5px_rgba(220,38,38,0.7)]"
-      >
-        Quero por R$ 37 →
-      </a>
+      {/* CTA fixo mobile */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-[#FFD400]/30 bg-[#0a0a0a]/95 p-3 backdrop-blur md:hidden">
+        <CTA className="w-full">Quero o Caderno por R$37 →</CTA>
+      </div>
     </div>
   );
 }
