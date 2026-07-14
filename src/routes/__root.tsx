@@ -77,14 +77,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Caderno PMPI 2026 — 800 Questões Comentadas | Prof. Jonathan Rocha" },
+      { name: "description", content: "800 questões inéditas e comentadas de Legislação Específica e Constituição do Piauí para o concurso da PMPI. Aprovação direto ao ponto." },
+      { property: "og:title", content: "Caderno PMPI 2026 — 800 Questões Comentadas" },
+      { property: "og:description", content: "800 questões inéditas e comentadas para o concurso da Polícia Militar do Piauí. Acesso imediato e garantia de 7 dias." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
