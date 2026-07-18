@@ -9,17 +9,17 @@ const WHATSAPP_URL =
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Caderno PMPI 2026 — 800 Questões Comentadas · Banca FCC" },
+      { title: "Caderno PMPI 2026 — 1000 Questões Comentadas · Banca FCC" },
       {
         name: "description",
         content:
-          "Concurso PMPI 2026: 800 questões inéditas e comentadas no padrão FCC. Treine no estilo da banca e chegue pronto para farda.",
+          "Concurso PMPI 2026: 1000 questões inéditas e comentadas no padrão FCC. Treine no estilo da banca e chegue pronto para farda.",
       },
-      { property: "og:title", content: "Caderno PMPI 2026 — 800 Questões FCC" },
+      { property: "og:title", content: "Caderno PMPI 2026 — 1000 Questões FCC" },
       {
         property: "og:description",
         content:
-          "800 questões comentadas de toda a legislação do concurso PMPI, no padrão FCC. Acesso imediato e garantia de 7 dias.",
+          "1000 questões comentadas de toda a legislação do concurso PMPI, no padrão FCC. Acesso imediato e garantia de 7 dias.",
       },
       { property: "og:type", content: "website" },
     ],
@@ -29,6 +29,7 @@ export const Route = createFileRoute("/")({
 
 const LEIS = [
   { qtd: 200, nome: "Código de Ética e Disciplina dos Militares do Piauí", ref: "Lei nº 7.725/2022" },
+  { qtd: 200, nome: "Estatuto dos Policiais Militares do Estado do Piauí", ref: "Lei nº 3.808/1981" },
   { qtd: 120, nome: "Constituição do Estado do Piauí", ref: "CE/PI" },
   { qtd: 100, nome: "Lei Orgânica Nacional das PM e CBM", ref: "Lei nº 14.751/2023" },
   { qtd: 70, nome: "Lei de Organização Básica da PMPI", ref: "Lei nº 3.529/1977" },
@@ -97,7 +98,7 @@ function Landing() {
         </span>
         <h1 className="mt-6 text-4xl font-black leading-tight sm:text-5xl md:text-6xl">
           Passe na <span className="text-[#FFD400]">PMPI</span> treinando com{" "}
-          <span className="text-[#FFD400]">800 questões comentadas</span> no padrão FCC 🚔
+          <span className="text-[#FFD400]">1000 questões comentadas</span> no padrão FCC 🚔
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg text-white/70">
           Preparação focada 100% no edital da <strong className="text-white">Polícia Militar do Piauí</strong>. Treine
@@ -108,7 +109,7 @@ function Landing() {
         <div className="mt-10">
           <img
             src={heroImage}
-            alt="Caderno de 800 questões PMPI padrão FCC"
+            alt="Caderno de 1000 questões PMPI padrão FCC"
             className="mx-auto w-full max-w-3xl rounded-2xl shadow-[0_30px_80px_-20px_rgba(255,212,0,0.25)]"
           />
         </div>
@@ -124,7 +125,7 @@ function Landing() {
             {[
               { i: "🧭", t: "Dificuldade nas questões da FCC?", d: "A FCC cobra literalidade da lei. Treinar no mesmo estilo separa quem acerta de quem chuta." },
               { i: "🎯", t: "Erra por detalhes?", d: "Uma palavra muda tudo. Com comentários direcionados, você entende por que errou — e não erra de novo." },
-              { i: "⏱️", t: "Muito conteúdo, pouca prática?", d: "Teoria não basta. 800 questões dão o volume de treino que transforma conhecimento em acertos." },
+              { i: "⏱️", t: "Muito conteúdo, pouca prática?", d: "Teoria não basta. 1000 questões dão o volume de treino que transforma conhecimento em acertos." },
             ].map((c) => (
               <div key={c.t} className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
                 <div className="text-4xl">{c.i}</div>
@@ -144,7 +145,7 @@ function Landing() {
         <div className="mx-auto max-w-5xl px-6">
           <p className="text-center text-sm font-bold uppercase tracking-widest text-[#FFD400]">O que você recebe</p>
           <h2 className="mx-auto mt-3 max-w-3xl text-center text-3xl font-black md:text-4xl">
-            800 questões focadas na PMPI, inéditas e comentadas em detalhes
+            1000 questões focadas na PMPI, inéditas e comentadas em detalhes
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-center text-white/70">
             Conteúdo alinhado ao edital da Polícia Militar do Piauí. Estude o que realmente cai e chegue na prova com
@@ -199,7 +200,7 @@ function Landing() {
       <section className="py-20">
         <div className="mx-auto max-w-5xl px-6">
           <p className="text-center text-sm font-bold uppercase tracking-widest text-[#FFD400]">
-            Divisão das 800 questões
+            Divisão das 1000 questões
           </p>
           <h2 className="mx-auto mt-3 max-w-3xl text-center text-3xl font-black md:text-4xl">
             Cobertura completa da legislação da PMPI
@@ -220,7 +221,7 @@ function Landing() {
           </div>
 
           <p className="mt-10 text-center text-white/70">
-            Total: <strong className="text-[#FFD400]">800 questões inéditas</strong> comentadas no padrão FCC.
+            Total: <strong className="text-[#FFD400]">1000 questões inéditas</strong> comentadas no padrão FCC.
           </p>
         </div>
       </section>
@@ -318,7 +319,7 @@ function Landing() {
 
             <ul className="mt-8 space-y-2 text-left">
               {[
-                "800 questões comentadas — padrão FCC",
+                "1000 questões comentadas — padrão FCC",
                 "Bônus 01: Edital verticalizado PMPI",
                 "Bônus 02: Ebook do Concurseiro Iniciante",
                 "Acesso imediato em qualquer dispositivo",
@@ -363,7 +364,7 @@ function Landing() {
           <h2 className="text-center text-3xl font-black md:text-4xl">Dúvidas frequentes</h2>
           <div className="mt-10 space-y-3">
             <Faq q="Como recebo o material?" a="O acesso é enviado imediatamente após a confirmação da compra para o seu e-mail." />
-            <Faq q="As questões estão no padrão da FCC?" a="Sim. Todas as 800 questões foram elaboradas no formato múltipla escolha A–E, exatamente como a FCC cobra." />
+            <Faq q="As questões estão no padrão da FCC?" a="Sim. Todas as 1000 questões foram elaboradas no formato múltipla escolha A–E, exatamente como a FCC cobra." />
             <Faq q="O material está atualizado?" a="Sim, o conteúdo é revisado periodicamente para se manter alinhado ao edital PMPI mais recente." />
             <Faq q="Posso acessar no celular?" a="Sim, o material é compatível com celular, tablet e computador — você estuda de onde estiver." />
             <Faq q="Tem garantia?" a="Sim! Você tem 7 dias para pedir reembolso integral, sem qualquer questionamento." />
