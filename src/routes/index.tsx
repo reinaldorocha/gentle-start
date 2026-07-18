@@ -29,6 +29,7 @@ export const Route = createFileRoute("/")({
 
 const LEIS = [
   { qtd: 200, nome: "Código de Ética e Disciplina dos Militares do Piauí", ref: "Lei nº 7.725/2022" },
+  { qtd: 200, nome: "Estatuto dos Policiais Militares do Estado do Piauí", ref: "Lei nº 3.808/1981" },
   { qtd: 120, nome: "Constituição do Estado do Piauí", ref: "CE/PI" },
   { qtd: 100, nome: "Lei Orgânica Nacional das PM e CBM", ref: "Lei nº 14.751/2023" },
   { qtd: 70, nome: "Lei de Organização Básica da PMPI", ref: "Lei nº 3.529/1977" },
